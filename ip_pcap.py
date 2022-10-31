@@ -10,12 +10,20 @@ def ip_pcap(pcap):
    src = socket.inet_ntoa(ip.src)
    dest = socket.inet_ntoa(ip.dst)
    print (count + '. Src: ' + src + ' --> Dst: ' + dest)
+   response = requests.post("http://ip-api.com/batch", json=[
+  {"query": src},
+  {"query": dest},
+]).json()
+   for ip_info in response:
+    for k,v in ip_info.items():
+        print(k,v)
+    print("\n")
    count++
   except:
    pass
 
 def main():
- f = open('geotest.pcap', 'rb')
+ f = open('test.pcap', 'rb')
  pcap = dpkt.pcap.Reader(f)
  ip_pcap(pcap)
 
